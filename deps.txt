@@ -1,0 +1,11 @@
+# Base desktop and Wayland tools
+hyprland
+waybar
+libnotify
+dunst
+wlogout
+swaylock
+
+# Extra fonts & terminal
+nerd-fonts
+kitty

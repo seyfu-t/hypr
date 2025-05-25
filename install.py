@@ -1,4 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+"""
+Simple installer for hypr-dots dotfiles and scripts.
+
+Place a file named `deps.txt` alongside this script, listing package names (one per line).
+Comments (`# ...`) and blank lines are ignored. If no `deps.txt` is found, defaults will be used.
+"""
 import os
 import subprocess
 import shutil
@@ -10,7 +16,12 @@ def install_dependencies(deps):
     missing = []
     for dep in deps:
         try:
-            subprocess.run(['pacman', '-Qi', dep], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+            subprocess.run(
+                ['pacman', '-Qi', dep],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=True
+            )
         except subprocess.CalledProcessError:
             missing.append(dep)
     if not missing:
@@ -70,8 +81,24 @@ def main():
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
 
-    # Define dependencies to install
-    deps = ['hyprland', 'waybar', 'libnotify', 'dunst', 'wlogout', 'swaylock']
+    # Load dependencies from deps.txt or fallback to defaults
+    deps_file = os.path.join(script_dir, 'deps.txt')
+    if os.path.isfile(deps_file):
+        with open(deps_file) as f:
+            deps = [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
+    else:
+        deps = [
+            'hyprland',
+            'waybar',
+            'libnotify',
+            'dunst',
+            'wlogout',
+            'swaylock',
+            'nerd-fonts-complete',
+            'ttf-jetbrains-mono',
+            'kitty',
+        ]
+
     install_dependencies(deps)
 
     # Install dotfiles
