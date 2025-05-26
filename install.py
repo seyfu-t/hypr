@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
 Simple installer for hypr-dots dotfiles and scripts.
 
